@@ -25,8 +25,8 @@ angular.module('ng-app').factory('BoardManipulator', function () {
         }
       });
     },
-    addCardToEmptyColumn: function (board, column, cardTitle, details, data) {
-      board.columns.cards.push(new Card(cardTitle, "status", details, data));
+    addCardInNewColumn: function (board, cardTitle, details, data) {
+      board.columns.push(new ColumnWithCard("Visit",new Card(cardTitle, "status", details, data)));
     },
     removeCardFromColumn: function (board, column, card) {
       angular.forEach(board.columns, function (col) {
@@ -46,7 +46,7 @@ angular.module('ng-app').factory('BoardManipulator', function () {
       board.backlogs.push(new Backlog(backlogName));
     },	
     addNewColumn: function (board) {
-      board.columns.push(new Column("New Present"));
+      board.columns.push(new Column("Visit"));
     },
 
     addPhaseToBacklog: function (board, backlogName, phase) {

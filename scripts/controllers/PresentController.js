@@ -32,18 +32,22 @@ angular.module('ng-app').controller('PresentController', ['$scope', 'BoardServic
   $scope.addNewColumn = function () {
     BoardService.addNewColumn($scope.presentData);
   }
+  $scope.deleteAlert = function (alert) {
+	var index = $scope.alertSizeFiles.indexOf(alert);
+	$scope.alertSizeFiles.splice(index, 1);
+  }
 
+  $scope.alertSizeFiles = [];
   $scope.addNewCard = function (file,column) {
-	$scope.alert = "";
-	console.log(file);
 	if(file.size>5000000){
-		file.cancel();
-		$scope.alert = "active";
-		return false;
+		$scope.alertSizeFiles.push(file.name);
 	}else{
 		BoardService.addNewCard($scope.presentData, file, column);
 	}
+	file.cancel();
   }
+  
+  
 }]);
 
 

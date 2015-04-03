@@ -4,6 +4,7 @@
     <title></title>
     <!--styles -->
     <link rel="stylesheet" type="text/css" href="styles/bootstrap.min.css">
+	
     <link rel="stylesheet" type="text/css" href="styles/base.css">
 	
     <!--scripts-->
@@ -24,36 +25,18 @@
 </head>
 <body ng-app="ng-app">
 
-	<div ng-model="presentData" id="board" ng-controller="PresentController" flow-prevent-drop flow-drag-enter="dropClass='drag-over'" flow-drag-leave="dropClass=''">
+<div ng-model="presentData" id="board" ng-controller="PresentController" flow-prevent-drop flow-drag-enter="dropClass='drag-over'" flow-drag-leave="dropClass=''">
 	<div class="wrapper">
 		<section>
-			<div flow-init flow-files-submitted="$flow.upload()" flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]" flow-file-success="addNewCard($file,presentData.columns[0])">
-				<div class="drop" flow-drop ng-class="dropClass">
-					<span class="btn btn-default" flow-btn>Upload Image</span>
-					<span class="btn btn-default" flow-btn flow-directory ng-show="$flow.supportDirectory">Upload Folder of Images</span>
-					<b>OR</b>
-					Drag And Drop your images here
-				</div>
-				<div class="alert alert-danger" ng-class="alert" role="alert"> Слишком большой размер изображения! Допустимо до 5мб.</div>
-				<br/>
-				
-				<div id="columns" class="row">
-					<div class="column_present" ng-repeat="column in presentData.columns" data-columnindex="{{$index}}" id="column{{$index}}">
-						<div class="column">
-							<div class="columnHeader">
-								<a title="remove column" class="btn btn-xs btn-danger removeColumn" ng-click="removeColumn(column)">remove {{column.name}}</a>
-								<span>{{column.name}} ({{column.cards.length}})</span>
-							</div>
-							<ul class="cards card-list" as-sortable="presentSortOptions" ng-model="column.cards">
-								<li class="card" ng-repeat="card in column.cards" as-sortable-item ng-include="'views/partials/card.html'"></li>
-							</ul>
-						</div>
-					</div>
-					<button ng-click="addNewColumn()" class="btn btn-success addNewColumn">Add new presentation</button>
-				</div>
-			</div>
+		
+			<h1>Awesome Present Constructor for i-Detailing</h1>
+			
+			<button class="btn btn-primary btn-lg">Создать презентацию</button>			
+			
+			<div ng-include="'views/create.html'"></div>			
+
 		</section>
     </div>
-	</div>
+</div>
 </body>
 </html>

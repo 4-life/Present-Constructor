@@ -31,10 +31,9 @@ angular.module('ng-app').service('BoardService', ['$modal', 'BoardManipulator', 
       });
 	  */
 	  if(!column){
-		BoardManipulator.addNewColumn(board);
-		BoardManipulator.addCardToEmptyColumn(board, column, "title", file.name, file);
+		BoardManipulator.addCardInNewColumn(board, "Slide", file.name, file);
 	  }else{
-		BoardManipulator.addCardToColumn(board, column, "title", file.name, file);		
+		BoardManipulator.addCardToColumn(board, column, "Slide", file.name, file);		
 	  }
     },
     addNewColumn: function (board) {

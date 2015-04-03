@@ -1,3 +1,4 @@
+body{overflow-y:scroll;}
 #board {width:80%; margin: 0 auto; padding: 0 10px 0 10px;}
 #board table {
 
@@ -21,7 +22,6 @@
 
 .columnHeader,
 #board .table thead th {
-    text-align: center;
     padding: 5px 0;
     font-size: 20px;
     font-weight: normal;
@@ -127,7 +127,6 @@ div.task h3 {
 }
 
 #columns { margin: 20px 0 5px 0;}
-#columns > div { padding-left: 5px; padding-right:5px;}
 
 .column {
     border: solid 1px darkgrey;
@@ -229,7 +228,7 @@ div.task h3 {
 .gallery-box .thumbnail {
     height: 150px;
     width: 200px;
-	padding:0;
+	margin: 10px 0;
 	background:none;
 }
 .gallery-box .title {
@@ -257,7 +256,6 @@ div.task h3 {
 
 .as-sortable-drag{opacity:.8}
 
-
 /* ng-sortable css file */
 .as-sortable-item{-ms-touch-action:none;touch-action:none}
 .as-sortable-item-handle{cursor:move}
@@ -265,12 +263,39 @@ div.task h3 {
 .as-sortable-hidden{display:none!important}
 
 
-.alert{
-	opacity:0;
-	visibility:hidden;
-	-webkit-transition:all .3s ease-in-out:
+
+.input-group{
+	width: 30%;
+	margin: 10px 30px;
 }
-.alert.active{
+.hidden{
+	display:none;
+}
+.present_title{
+	position:relative;
+}
+.presentNameForm{
+	margin: 0;
+	padding: 5px 0 30px 0;
+}
+.editable{
+	cursor:pointer;
+}
+.edit{
+	opacity:0;
+	color: #333;
+	font-size:70%;
+	vertical-align:baseline
+}
+.editable:hover .edit{
 	opacity:1;
-	visibility:visible;
+}
+.alert-danger{
+	cursor:pointer;
+}
+.slideNameForm,.slideDetailsForm{
+	position:absolute;
+}
+.btn-removeCard{
+	width:100%;
 }

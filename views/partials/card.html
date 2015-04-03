@@ -3,24 +3,46 @@
 <div as-sortable-item-handle>
         <div class="gallery-box">
             <!--<span class="btn-link"><a data-no-drag target=_top href="https://github.com/a5hik/ng-sortable">test no-drag href</a></span>-->
-            <span class="card-title">{{card.title}}</span>
-            <p>{{card.details}}</p>
+            <span data-no-drag class="card-title editable" class="editable" ng-click="slideName = ! slideName; temp.name = card.title">
+				Слайд: {{card.title}}<span class="glyphicon glyphicon-pencil edit"></span>
+			</span>
+			
+			<div data-no-drag class="input-group slideNameForm" ng-class="{ 'hidden': ! slideName }">
+				<input type="text" class="form-control" placeholder="{{card.title}}" name="input" ng-model="card.title" required ng-trim="false"/>
+				<span class="input-group-btn">
+					<button class="btn btn-success active" type="button" ng-click="slideName = ! slideName">Сохранить</button>
+					<button class="btn btn-danger active" type="button" ng-click="slideName = ! slideName; card.title=temp.name">Отменить</button>
+				</span>
+			</div>
+			
+            <span data-no-drag class="editable" ng-click="slideDetailsForm = ! slideDetailsForm; temp.name = card.details">
+				Описание слайда : {{card.details}}
+				<span class="glyphicon glyphicon-pencil edit"></span>
+			</span>
+			
+			<div data-no-drag class="input-group slideDetailsForm" ng-class="{ 'hidden': ! slideDetailsForm }">
+				<input type="text" class="form-control" placeholder="{{card.details}}" name="input" ng-model="card.details" required ng-trim="false"/>
+				<span class="input-group-btn">
+					<button class="btn btn-success active" type="button" ng-click="slideDetailsForm = ! slideDetailsForm">Сохранить</button>
+					<button class="btn btn-danger active" type="button" ng-click="slideDetailsForm = ! slideDetailsForm; card.details=temp.name">Отменить</button>
+				</span>
+			</div>
+						
 			<div class="thumbnail">
 				<img flow-img="card.data" />
 			</div>
-			
-					<div class="progress progress-striped" ng-class="{active: card.data.isUploading()}">
-						<div class="progress-bar" role="progressbar"
-						aria-valuenow="{{card.data.progress() * 100}}"
-						aria-valuemin="0"
-						aria-valuemax="100"
-						ng-style="{width: (card.data.progress() * 100) + '%'}">
-						<span>{{card.data.progress()}}% Complete</span>
-						</div>
-					</div>
-        </div>
-        <div class="">
-            <a data-no-drag class="btn btn-xs btn-danger" ng-click="removeCard(column, card)">Remove {{card.title}}</a>
+			<!--
+			<div class="progress progress-striped" ng-class="{active: card.data.isUploading()}">
+				<div class="progress-bar" role="progressbar"
+					aria-valuenow="{{card.data.progress() * 100}}"
+					aria-valuemin="0"
+					aria-valuemax="100"
+					ng-style="{width: (card.data.progress() * 100) + '%'}">
+					<span>{{card.data.progress() * 100}}% Complete</span>
+				</div>
+			</div>
+			-->
+			<a data-no-drag class="btn btn-xs btn-danger btn-removeCard" ng-click="removeCard(column, card)">Удалить слайд {{card.title}}</a>
         </div>
 </div>
 

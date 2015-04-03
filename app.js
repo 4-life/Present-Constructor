@@ -25,7 +25,7 @@ angular.module('ng-app', [
     flowFactoryProvider.factory = fustyFlowFactory;
   }]);;
 
-
+var columnCount = 0;
   
 function Board(name, numberOfColumns) {
   return {
@@ -37,9 +37,19 @@ function Board(name, numberOfColumns) {
 }
 
 function Column(name) {
+  columnCount++;
   return {
-    name: name,
+    name: name+columnCount,
+    title: name+columnCount,
     cards: []
+  };
+}
+function ColumnWithCard(name,card) {
+  columnCount++;
+  return {
+    name: name+columnCount,
+    title: name+columnCount,
+    cards: [card]
   };
 }
 
