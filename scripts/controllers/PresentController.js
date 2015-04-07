@@ -5,14 +5,15 @@
 
 angular.module('ng-app').controller('PresentController', ['$scope', 'BoardService', 'BoardDataFactory', function ($scope, BoardService, BoardDataFactory) {
 
-  $scope.presentData = BoardService.presentData(BoardDataFactory.kanban);
-
+  $scope.presentAllData = BoardDataFactory.presents; 
+  
+  if($scope.presentAllData[0]){
+	$scope.presentData = BoardService.presentData($scope.presentAllData[0]);
+  }
+  
+  $scope.content = "presentList";
+  
   $scope.presentSortOptions = {
-
-    //restrict move across columns. move only within column.
-    /*accept: function (sourceItemHandleScope, destSortableScope) {
-     return sourceItemHandleScope.itemScope.sortableScope.$id !== destSortableScope.$id;
-     },*/
     itemMoved: function (event) {
       event.source.itemScope.modelValue.status = event.dest.sortableScope.$parent.column.name;
     },
@@ -32,11 +33,6 @@ angular.module('ng-app').controller('PresentController', ['$scope', 'BoardServic
   $scope.addNewColumn = function () {
     BoardService.addNewColumn($scope.presentData);
   }
-  $scope.deleteAlert = function (alert) {
-	var index = $scope.alertSizeFiles.indexOf(alert);
-	$scope.alertSizeFiles.splice(index, 1);
-  }
-
   $scope.alertSizeFiles = [];
   $scope.addNewCard = function (file,column) {
 	if(file.size>5000000){
@@ -46,7 +42,41 @@ angular.module('ng-app').controller('PresentController', ['$scope', 'BoardServic
 	}
 	file.cancel();
   }
+   
   
+  $scope.deleteAlert = function (alert) {
+	var index = $scope.alertSizeFiles.indexOf(alert);
+	$scope.alertSizeFiles.splice(index, 1);
+  }
+  
+  $scope.showPresent = function(key){
+	$scope.presentData = BoardService.presentData($scope.presentAllData[key]);
+	$scope.setContent("presentDetail");
+  }
+  
+  
+  
+  $scope.createNewPresent = function(){	
+	var index = $scope.presentAllData.length;
+	var newBoard = new Board(index, "Present"+index, 0);
+	$scope.presentAllData[index] = newBoard;
+	$scope.presentData = BoardService.presentData(newBoard);
+	$scope.setContent("presentDetail");
+  }
+  
+  $scope.saveData = function(present){	
+    BoardService.saveData($scope.presentAllData, present);
+	$scope.setContent("presentList");
+  } 
+  
+  $scope.removeData = function(present){	
+    BoardService.removeData($scope.presentAllData, present);
+	$scope.setContent("presentList");
+  }
+  
+  $scope.setContent = function(content){
+	$scope.content = content;
+  }
   
 }]);
 

@@ -25,10 +25,10 @@ angular.module('ng-app', [
     flowFactoryProvider.factory = fustyFlowFactory;
   }]);;
 
-var columnCount = 0;
   
-function Board(name, numberOfColumns) {
+function Board(id, name, numberOfColumns){
   return {
+	id: id,
     name: name,
     numberOfColumns: numberOfColumns,
     columns: [],
@@ -36,21 +36,22 @@ function Board(name, numberOfColumns) {
   };
 }
 
-function Column(name) {
-  columnCount++;
+function Column(id, name) { 
   return {
-    name: name+columnCount,
-    title: name+columnCount,
+	id: id,
+    name: name,
+    title: name,
     cards: []
   };
 }
-function ColumnWithCard(name,card) {
-  columnCount++;
-  return {
-    name: name+columnCount,
-    title: name+columnCount,
-    cards: [card]
-  };
+
+
+function Card(title, status, details, data) {
+  this.title = title;
+  this.status = status;
+  this.details = details;
+  this.data = data;
+  return this;
 }
 
 function Backlog(name) {
@@ -65,12 +66,4 @@ function Phase(name) {
     name: name,
     cards: []
   };
-}
-
-function Card(title, status, details, data) {
-  this.title = title;
-  this.status = status;
-  this.details = details;
-  this.data = data;
-  return this;
 }

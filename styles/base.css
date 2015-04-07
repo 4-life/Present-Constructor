@@ -22,7 +22,7 @@ body{overflow-y:scroll;}
 
 .columnHeader,
 #board .table thead th {
-    padding: 5px 0;
+    padding: 5px 10px;
     font-size: 20px;
     font-weight: normal;
     border-bottom: 1px solid #dddddd;
@@ -294,8 +294,45 @@ div.task h3 {
 	cursor:pointer;
 }
 .slideNameForm,.slideDetailsForm{
-	position:absolute;
+	margin:0;
+	width:100%;
 }
 .btn-removeCard{
 	width:100%;
+}
+.presentBlock{
+	height: 300px;
+	background: #f9f9f9;
+	padding: 10px;
+	overflow:hidden;
+	margin: 20px 0;
+	cursor:pointer;
+}
+.presentBlock:hover{
+	background: rgb(221, 221, 221);	
+}
+.presentBlock .thumbnail{
+	min-height:150px;
+}
+.presentBlock .thumbnail span{
+	text-align:center;
+	width:100%;
+	font-size:100pt;
+	color:#ccc;
+}
+.createPresentBtn{
+	width: 100%;
+	height: 100%;
+	color: #fff;
+	font-size: 20pt;
+	white-space: normal;
+}
+.createPresentBtn:hover{
+	background: #ccc;	
+}
+.presentManipulate{
+	margin:20px 0;
+}
+.glyphicon{
+	margin-right:5px;
 }

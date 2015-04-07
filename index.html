@@ -29,11 +29,38 @@
 	<div class="wrapper">
 		<section>
 		
-			<h1>Awesome Present Constructor for i-Detailing</h1>
+			<h1>Awesome presentation constructor for i-Detailing <small>v.0.1</small></h1>
+			<div ng-if="content == 'presentList'">
+				<div class="row">
+					<div class="col-md-2" ng-repeat="presentation in presentAllData">
+						<div class="presentBlock" ng-click="showPresent($index)">
+							<div class="thumbnail" flow-init>
+								<img ng-if="presentation.columns.length>0" flow-img="presentation.columns[0].cards[0].data" />
+								<span ng-if="presentation.columns.length==0" class="glyphicon glyphicon-picture"></span>
+							</div>
+							<div class="caption">
+								<h3>{{presentation.name}}<span class="glyphicon glyphicon-pencil edit"></span></h3>
+								<p ng-if="presentation.columns.length>0">
+									Доступные визиты:
+									<span ng-repeat="col in presentation.columns"> 
+										{{col.name}}({{col.cards.length}})
+									</span>
+								</p>
+								<p ng-if="presentation.columns.length==0"><i>пустая презентация</i></p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-2">
+						<div class="presentBlock">
+							<button class="btn createPresentBtn"  ng-click="createNewPresent()"><span class="glyphicon glyphicon-plus"></span>cоздать презентацию</button>	
+						</div>					
+					</div>
+				</div>								
+			</div>			
 			
-			<button class="btn btn-primary btn-lg">Создать презентацию</button>			
-			
-			<div ng-include="'views/create.html'"></div>			
+			<div ng-if="content == 'presentDetail'">
+				<div ng-include="'views/detail.html'"></div>
+			</div>
 
 		</section>
     </div>

@@ -6,48 +6,64 @@
 
 angular.module('ng-app').factory('BoardManipulator', function () {
   return {
-
-    addColumn: function (board, columnName) {
-      board.columns.push(new Column(columnName));
+    removeData: function (allData, board) {
+      allData.splice(allData.indexOf(board), 1);
     },
-
-   /* addCardToColumn: function (board, column, cardTitle, details) {
-      angular.forEach(board.columns, function (col) {
-        if (col.name === column.name) {
-          col.cards.push(new Card(cardTitle, column.name, details));
-        }
-      });
-    },*/
-    addCardToColumn: function (board, column, cardTitle, details, data) {
-      angular.forEach(board.columns, function (col) {
-        if (col.name === column.name) {
-          col.cards.push(new Card(cardTitle, column.name, details, data));
-        }
-      });
-    },
-    addCardInNewColumn: function (board, cardTitle, details, data) {
-      board.columns.push(new ColumnWithCard("Visit",new Card(cardTitle, "status", details, data)));
+    saveData: function (allData, present) {	
+		angular.forEach(allData, function (presentAll) {
+			if(presentAll.id==present.id){	  
+				presentAll.name = present.name;			
+				presentAll.columns = [];
+			
+				angular.forEach(present.columns, function (column) {
+					var tempCol = new Column(column.id, column.name)
+					
+					angular.forEach(column.cards, function (card) {
+						var tempCard = new Card(card.title, card.status, card.details, card.data);
+						tempCol.cards.push(tempCard);
+					});
+					presentAll.columns.push(tempCol);
+				});
+			}		  
+		});
     },
     removeCardFromColumn: function (board, column, card) {
       angular.forEach(board.columns, function (col) {
-        if (col.name === column.name) {
+        if (col.id === column.id) {
           col.cards.splice(col.cards.indexOf(card), 1);
         }
       });
     },
     removeColumn: function (board, column) {
       angular.forEach(board.columns, function (col) {
-        if (col.name === column.name) {
+        if (col.id === column.id) {
           board.columns.splice(board.columns.indexOf(col), 1);
         }
       });
     },
+    addCardToColumn: function (board, column, cardTitle, details, data) {
+      angular.forEach(board.columns, function (col) {
+        if (col.id === column.id) {
+		  var card = new Card(cardTitle, column.name, details, data);
+          col.cards.push(card);
+        }
+      });
+    },
+    addCardToNewColumn: function (board, cardTitle, details, data) {
+	  var card = new Card(cardTitle, cardTitle, details, data);
+	  var column = new Column(0, "Visit"+0);
+	  column.cards.push(card);
+      board.columns.push(column);
+    },
+	addColumn: function (board, columnName) {
+	  var index = board.columns.length;
+	  columnName ? columnName = columnName : columnName = "Visit"+index;
+      board.columns.push(new Column(index, columnName));
+    },
+	
     addBacklog: function (board, backlogName) {
       board.backlogs.push(new Backlog(backlogName));
     },	
-    addNewColumn: function (board) {
-      board.columns.push(new Column("Visit"));
-    },
 
     addPhaseToBacklog: function (board, backlogName, phase) {
       angular.forEach(board.backlogs, function (backlog) {

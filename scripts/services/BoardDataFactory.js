@@ -6,13 +6,9 @@
 angular.module('ng-app').service('BoardDataFactory', function () {
 
   return {
-    kanban: {
-      "name": "Presentation1",
-      "numberOfColumns": 0,
-      "columns": [
-	  
-      ]
-    }
+    presents: [
+	
+    ]
   };
 });
 

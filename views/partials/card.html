@@ -3,28 +3,28 @@
 <div as-sortable-item-handle>
         <div class="gallery-box">
             <!--<span class="btn-link"><a data-no-drag target=_top href="https://github.com/a5hik/ng-sortable">test no-drag href</a></span>-->
-            <span data-no-drag class="card-title editable" class="editable" ng-click="slideName = ! slideName; temp.name = card.title">
-				Слайд: {{card.title}}<span class="glyphicon glyphicon-pencil edit"></span>
-			</span>
+            <h4 data-no-drag class="card-title editable" class="editable" ng-click="slideName = ! slideName; temp.name = card.title">
+				{{card.title}}<span class="glyphicon glyphicon-pencil edit"></span>
+			</h4>
 			
 			<div data-no-drag class="input-group slideNameForm" ng-class="{ 'hidden': ! slideName }">
 				<input type="text" class="form-control" placeholder="{{card.title}}" name="input" ng-model="card.title" required ng-trim="false"/>
 				<span class="input-group-btn">
-					<button class="btn btn-success active" type="button" ng-click="slideName = ! slideName">Сохранить</button>
-					<button class="btn btn-danger active" type="button" ng-click="slideName = ! slideName; card.title=temp.name">Отменить</button>
+					<button class="btn btn-success active" type="button" ng-click="slideName = ! slideName"><span class="glyphicon glyphicon-ok"></span></button>
+					<button class="btn btn-danger active" type="button" ng-click="slideName = ! slideName; card.title=temp.name"><span class="glyphicon glyphicon-remove"></span></button>
 				</span>
 			</div>
 			
             <span data-no-drag class="editable" ng-click="slideDetailsForm = ! slideDetailsForm; temp.name = card.details">
-				Описание слайда : {{card.details}}
+				Описание : {{card.details}}
 				<span class="glyphicon glyphicon-pencil edit"></span>
 			</span>
 			
 			<div data-no-drag class="input-group slideDetailsForm" ng-class="{ 'hidden': ! slideDetailsForm }">
 				<input type="text" class="form-control" placeholder="{{card.details}}" name="input" ng-model="card.details" required ng-trim="false"/>
 				<span class="input-group-btn">
-					<button class="btn btn-success active" type="button" ng-click="slideDetailsForm = ! slideDetailsForm">Сохранить</button>
-					<button class="btn btn-danger active" type="button" ng-click="slideDetailsForm = ! slideDetailsForm; card.details=temp.name">Отменить</button>
+					<button class="btn btn-success active" type="button" ng-click="slideDetailsForm = ! slideDetailsForm"><span class="glyphicon glyphicon-ok"></span></button>
+					<button class="btn btn-danger active" type="button" ng-click="slideDetailsForm = ! slideDetailsForm; card.details=temp.name"><span class="glyphicon glyphicon-remove"></span></button>
 				</span>
 			</div>
 						
@@ -42,7 +42,7 @@
 				</div>
 			</div>
 			-->
-			<a data-no-drag class="btn btn-xs btn-danger btn-removeCard" ng-click="removeCard(column, card)">Удалить слайд {{card.title}}</a>
+			<a data-no-drag class="btn btn-xs btn-danger btn-removeCard" ng-click="removeCard(column, card)"><span class="glyphicon glyphicon-trash"></span>Удалить слайд {{card.title}}</a>
         </div>
 </div>
 
