@@ -2,7 +2,10 @@
 
 <div as-sortable-item-handle>
         <div class="gallery-box">
-            <!--<span class="btn-link"><a data-no-drag target=_top href="https://github.com/a5hik/ng-sortable">test no-drag href</a></span>-->
+            <!--<span class="btn-link"><a data-no-drag target=_top href="https://github.com/a5hik/ng-sortable">test no-drag href</a></span>-->	
+			<div class="thumbnail">
+				<img flow-img="card.data" />
+			</div>
             <h4 data-no-drag class="card-title editable" class="editable" ng-click="slideName = ! slideName; temp.name = card.title">
 				{{card.title}}<span class="glyphicon glyphicon-pencil edit"></span>
 			</h4>
@@ -27,10 +30,7 @@
 					<button class="btn btn-danger active" type="button" ng-click="slideDetailsForm = ! slideDetailsForm; card.details=temp.name"><span class="glyphicon glyphicon-remove"></span></button>
 				</span>
 			</div>
-						
-			<div class="thumbnail">
-				<img flow-img="card.data" />
-			</div>
+					
 			<!--
 			<div class="progress progress-striped" ng-class="{active: card.data.isUploading()}">
 				<div class="progress-bar" role="progressbar"
@@ -42,7 +42,7 @@
 				</div>
 			</div>
 			-->
-			<a data-no-drag class="btn btn-xs btn-danger btn-removeCard" ng-click="removeCard(column, card)"><span class="glyphicon glyphicon-trash"></span>Удалить слайд {{card.title}}</a>
+			<a data-no-drag class="btn btn-xs btn-danger btn-removeCard" ng-click="removeCard(column, card)"><span class="glyphicon glyphicon-trash"></span>Удалить</a>
         </div>
 </div>
 

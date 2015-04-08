@@ -1,6 +1,8 @@
+			<div class="alert alert-warning"><span class="glyphicon glyphicon-question-sign"></span>Подсказка: При загрузки изображения, оно автоматически становится слайдом в первом визите.</div>
+			
 			<div flow-init flow-files-submitted="$flow.upload()" flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]" flow-file-success="addNewCard($file,presentData.columns[0])">					
 				<h2 class="editable" ng-click="presentName = ! presentName; temp.name = presentData.name">Презентация {{presentData.name}} <span class="glyphicon glyphicon-pencil edit"></span></h2>
-					
+				<button ng-click="addNewColumn()" class="btn btn-success addNewColumn"><span class="glyphicon glyphicon-plus"></span>Добавить визит</button>
 				<div class="input-group presentNameForm" ng-class="{ 'hidden': ! presentName }">
 					<input type="text" class="form-control" placeholder="{{presentData.name}}" name="input" ng-model="presentData.name" required ng-trim="false"/>
 					<span class="input-group-btn">
@@ -41,14 +43,13 @@
 								<li class="card" ng-repeat="card in column.cards" as-sortable-item ng-include="'views/partials/card.html'"></li>
 							</ul>
 						</div>
-					</div>
-					<button ng-click="addNewColumn()" class="btn btn-success addNewColumn"><span class="glyphicon glyphicon-plus"></span>Добавить новую ветку презентации</button>
+					</div>					
 				</div>
 				<div class="presentManipulate">
 					<p class="btn-group btn-group-lg" role="group">
 						<button class="btn btn-success" type="button" ng-click="saveData(presentData)"><span class="glyphicon glyphicon-ok"></span>Сохранить</button>
 						<button class="btn btn-warning" type="button" ng-click="setContent('presentList')"><span class="glyphicon glyphicon-remove"></span>Отменить изменения</button>
-						<button class="btn btn-danger" type="button" ng-click="removeData(presentData)"><span class="glyphicon glyphicon-trash"></span>Удалить презентацию</button>
+						<button class="btn btn-danger" type="button" ng-click="removeData(presentData)"><span class="glyphicon glyphicon-trash"></span>Удалить презентацию {{presentData.name}}</button>
 					</p>
 				<div>
 			</div>
