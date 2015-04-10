@@ -11,6 +11,8 @@ angular.module('ng-app').service('BoardService', ['$modal', 'BoardManipulator', 
     },
     saveData: function (allData, board) {
        BoardManipulator.saveData(allData, board);
+	   
+		
     },
     removeCard: function (board, column, card) {
        BoardManipulator.removeCardFromColumn(board, column, card);

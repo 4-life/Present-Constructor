@@ -26,6 +26,7 @@ angular.module('ng-app').factory('BoardManipulator', function () {
 				});
 			}		  
 		});
+		
     },
     removeCardFromColumn: function (board, column, card) {
       angular.forEach(board.columns, function (col) {

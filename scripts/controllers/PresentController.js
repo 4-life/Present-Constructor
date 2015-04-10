@@ -40,7 +40,7 @@ angular.module('ng-app').controller('PresentController', ['$scope', 'BoardServic
 	}else{
 		BoardService.addNewCard($scope.presentData, file, column);
 	}
-	file.cancel();
+	//file.cancel();
   }
    
   

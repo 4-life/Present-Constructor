@@ -76,8 +76,8 @@
       preprocess: null,
       method: 'multipart',
       prioritizeFirstAndLastChunk: false,
-      target: '/',
-      testChunks: true,
+      target: '',
+      testChunks: false,
       generateUniqueIdentifier: null,
       maxChunkRetries: 0,
       chunkRetryInterval: null,
@@ -1219,6 +1219,8 @@
             break;
         }
       }
+	  
+	  
       if (this.flowObj.opts.testChunks && !this.tested) {
         this.test();
         return;
@@ -1241,8 +1243,8 @@
       this.xhr.addEventListener("error", this.doneHandler, false);
 
       var data = this.prepareXhrRequest('POST', this.flowObj.opts.method, bytes);
-
       this.xhr.send(data);
+	  console.log(this.xhr.response);
     },
 
     /**
@@ -1375,6 +1377,7 @@
         this.xhr.setRequestHeader(k, v);
       }, this);
 
+	  console.log(data);
       return data;
     }
   };
