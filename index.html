@@ -25,17 +25,22 @@
 </head>
 <body ng-app="ng-app">
 
-<div ng-model="presentData" id="board" ng-controller="PresentController" flow-prevent-drop flow-drag-enter="dropClass='drag-over'" flow-drag-leave="dropClass=''">
-	<div class="wrapper">
-		<section>
+<div class="wrapper">
+	<section>
 		
-			<h1>Awesome presentation constructor for i-Detailing <small>v.0.1</small></h1>
+		<h1>Awesome presentation constructor for e-Detailing <small>v.0.3</small></h1>
+		<div ng-model="presentData" id="board" ng-controller="PresentController" flow-prevent-drop flow-drag-enter="dropClass='drag-over'" flow-drag-leave="dropClass=''">
 			<div ng-if="content == 'presentList'">
+				<div class="alert alert-danger sample-show-hide" role="alert" ng-class="{ 'hidden': ! parseError }">
+					<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+					<span class="sr-only">Ошибка:</span>
+					В процессе получения данных с сервера возникла ошибка. Только локальный режим. 
+				</div>
 				<div class="row">
 					<div class="col-md-2" ng-repeat="presentation in presentAllData">
-						<div class="presentBlock" ng-click="showPresent($index)">
+						<a class="presentBlock" ng-href="/?presentId={{presentation.id}}">
 							<div class="thumbnail" flow-init>
-								<img ng-if="presentation.columns.length>0" flow-img="presentation.columns[0].cards[0].data" />
+								<img ng-if="presentation.columns.length>0" ng-src="/api/temp/{{presentation.columns[0].cards[0].data}}" />
 								<span ng-if="presentation.columns.length==0" class="glyphicon glyphicon-picture"></span>
 							</div>
 							<div class="caption">
@@ -48,7 +53,7 @@
 								</p>
 								<p ng-if="presentation.columns.length==0"><i>пустая презентация</i></p>
 							</div>
-						</div>
+						</a>
 					</div>
 					<div class="col-md-2">
 						<div class="presentBlock">
@@ -61,9 +66,9 @@
 			<div ng-if="content == 'presentDetail'">
 				<div ng-include="'views/detail.html'"></div>
 			</div>
+		</div>
 
-		</section>
-    </div>
+	</section>
 </div>
 </body>
 </html>

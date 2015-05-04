@@ -8,25 +8,8 @@ angular.module('ng-app').factory('BoardManipulator', function () {
   return {
     removeData: function (allData, board) {
       allData.splice(allData.indexOf(board), 1);
-    },
-    saveData: function (allData, present) {	
-		angular.forEach(allData, function (presentAll) {
-			if(presentAll.id==present.id){	  
-				presentAll.name = present.name;			
-				presentAll.columns = [];
-			
-				angular.forEach(present.columns, function (column) {
-					var tempCol = new Column(column.id, column.name)
-					
-					angular.forEach(column.cards, function (card) {
-						var tempCard = new Card(card.title, card.status, card.details, card.data);
-						tempCol.cards.push(tempCard);
-					});
-					presentAll.columns.push(tempCol);
-				});
-			}		  
-		});
-		
+	  console.log(allData);
+	  console.log(board);
     },
     removeCardFromColumn: function (board, column, card) {
       angular.forEach(board.columns, function (col) {
@@ -84,6 +67,8 @@ angular.module('ng-app').factory('BoardManipulator', function () {
           });
         }
       });
-    }
+    },
+	
+	
   };
 });

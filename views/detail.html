@@ -1,8 +1,16 @@
 			<div class="alert alert-warning"><span class="glyphicon glyphicon-question-sign"></span>Подсказка: При загрузки изображения, оно автоматически становится слайдом в первом визите.</div>
-			
-			<div flow-init flow-files-submitted="$flow.upload()" flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]" flow-file-success="addNewCard($file,presentData.columns[0])">					
+			<!--
+				$flow.upload()
+				flow-file-success="addNewCard($file,presentData.columns[0])"
+				flow-files-submitted="addNewCard($flow,presentData.columns[0])"
+			-->
+			<div flow-init flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]; addNewCard($file,presentData.columns[0])">					
 				<h2 class="editable" ng-click="presentName = ! presentName; temp.name = presentData.name">Презентация {{presentData.name}} <span class="glyphicon glyphicon-pencil edit"></span></h2>
 				<button ng-click="addNewColumn()" class="btn btn-success addNewColumn"><span class="glyphicon glyphicon-plus"></span>Добавить визит</button>
+				или
+				<button class="btn btn-success addNewColumn" ng-click="downloadArea = ! downloadArea"><span class="glyphicon glyphicon-plus"></span>Добавить слайд</button>
+				
+				
 				<div class="input-group presentNameForm" ng-class="{ 'hidden': ! presentName }">
 					<input type="text" class="form-control" placeholder="{{presentData.name}}" name="input" ng-model="presentData.name" required ng-trim="false"/>
 					<span class="input-group-btn">
@@ -11,7 +19,7 @@
 					</span>
 				</div>
 				
-				<div class="drop" flow-drop ng-class="dropClass">
+				<div class="drop" flow-drop ng-class="{ 'hidden': ! downloadArea}"> <!--dropClass-->
 					<span class="btn btn-default" flow-btn><span class="glyphicon glyphicon-download"></span>Загрузить изображения</span>
 					<span class="btn btn-default" flow-btn flow-directory ng-show="$flow.supportDirectory"><span class="glyphicon glyphicon-folder-open"></span>Загрузить папку с изображениями</span>
 					<b>или</b>
@@ -19,9 +27,36 @@
 				</div>
 				<div class="alert alert-danger" ng-repeat="alert in alertSizeFiles" ng-click="deleteAlert(alert)" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Слишком большой размер изображения {{alert}}! Допустимо до 5мб.</div>
 				
+				
+				<div class="progress progress-striped">
+					<div class="progress-bar" role="progressbar"
+						aria-valuenow="{{$flow.progress() * 100}}"
+						aria-valuemin="0"
+						aria-valuemax="100"
+						ng-style="{width: ($flow.progress() * 100) + '%'}">
+						<span>{{$flow.progress() * 100}}% завершено</span>
+					</div>
+				</div>
+				<div class="presentManipulate">
+					<p class="btn-group btn-group-lg" role="group">
+						<button class="btn btn-success" type="button" ng-click="saveData($flow,presentData)"><span class="glyphicon glyphicon-ok"></span>Применить изменения
+							<div class="progresSaving sample-show-hide" ng-show="progresSavingDone">
+								<div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="100" ></div>
+							</div>
+						</button>
+						<button class="btn btn-warning" type="button" ng-click="setContent('presentList')"><span class="glyphicon glyphicon-remove"></span>Вернуться к списку презентаций</button>
+						<button class="btn btn-danger" type="button" ng-click="removeData(presentData)"><span class="glyphicon glyphicon-trash"></span>Удалить презентацию {{presentData.name}}</button>
+					</p>
+					<div class="alert alert-danger sample-show-hide" role="alert" ng-class="{ 'hidden': ! progresError }">
+						<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+						<span class="sr-only">Ошибка:</span>
+						В процессе сохранения изменений возникла ошибка
+					</div>
+				</div>
+				
 				<div id="columns">
 					
-					<div class="column_present" ng-repeat="column in presentData.columns" data-columnindex="{{$index}}" id="column{{$index}}">
+					<div class="column_present" ng-repeat="column in presentData.columns" data-columnindex="{{$index}}" id="column{{$index}}" ng-init="columnIndex=$index">
 						<div class="column">
 							<div class="columnHeader">
 								<a title="remove column" class="btn btn-xs btn-danger removeColumn" ng-click="removeColumn(column)"><span class="glyphicon glyphicon-trash"></span>Удалить ветку {{column.name}}</a>
@@ -40,16 +75,9 @@
 								
 							</div>
 							<ul class="cards card-list row" as-sortable="presentSortOptions" ng-model="column.cards">
-								<li class="card" ng-repeat="card in column.cards" as-sortable-item ng-include="'views/partials/card.html'"></li>
+								<li class="card" ng-repeat="card in column.cards" as-sortable-item ng-include="'views/card.html'" data-cardindex="{{$index}}" id="card{{$index}}" ng-init="cardIndex=$index" ng-mouseenter="buildWay(columnIndex,cardIndex)"></li>
 							</ul>
 						</div>
 					</div>					
 				</div>
-				<div class="presentManipulate">
-					<p class="btn-group btn-group-lg" role="group">
-						<button class="btn btn-success" type="button" ng-click="saveData(presentData)"><span class="glyphicon glyphicon-ok"></span>Сохранить</button>
-						<button class="btn btn-warning" type="button" ng-click="setContent('presentList')"><span class="glyphicon glyphicon-remove"></span>Отменить изменения</button>
-						<button class="btn btn-danger" type="button" ng-click="removeData(presentData)"><span class="glyphicon glyphicon-trash"></span>Удалить презентацию {{presentData.name}}</button>
-					</p>
-				<div>
 			</div>

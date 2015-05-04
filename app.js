@@ -12,25 +12,30 @@ angular.module('ng-app', [
   ])
   .config(['flowFactoryProvider', function (flowFactoryProvider) {
     flowFactoryProvider.defaults = {
-      target: '/upload.php',
+      //target: '/Present-Constructor/server/upload.php',
       permanentErrors: [500, 501],
       maxChunkRetries: 1,
       chunkRetryInterval: 5000,
       simultaneousUploads: 1
     };
     flowFactoryProvider.on('catchAll', function (event) {
-     // console.log('catchAll', arguments);
+      //console.log('catchAll', arguments);
     });
+	flowFactoryProvider.on('filesSubmitted', function(file) {
+		//console.log(Flow);
+	});
     // Can be used with different implementations of Flow.js
     flowFactoryProvider.factory = fustyFlowFactory;
-  }]);;
+  }])
+ 
+		
 
   
-function Board(id, name, numberOfColumns){
+function Board(id, name, brand){
   return {
 	id: id,
     name: name,
-    numberOfColumns: numberOfColumns,
+	brand: brand,
     columns: [],
     backlogs: []
   };
@@ -44,7 +49,6 @@ function Column(id, name) {
     cards: []
   };
 }
-
 
 function Card(title, status, details, data) {
   this.title = title;

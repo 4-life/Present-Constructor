@@ -78,7 +78,7 @@
       prioritizeFirstAndLastChunk: false,
       target: '',
       testChunks: false,
-      generateUniqueIdentifier: null,
+      generateUniqueIdentifier: true,
       maxChunkRetries: 0,
       chunkRetryInterval: null,
       permanentErrors: [404, 415, 500, 501],
@@ -265,7 +265,9 @@
       }
       // Some confusion in different versions of Firefox
       var relativePath = file.relativePath || file.webkitRelativePath || file.fileName || file.name;
-      return file.size + '-' + relativePath.replace(/[^0-9a-zA-Z_-]/img, '');
+	  var id = Math.floor((Math.random() * 10000000000) + 1000000);
+      //return id + '_' + file.size + '_' + relativePath.replace(/[^0-9a-zA-Z_-]/img, '');
+	  return id + '_' + file.size + '_' + relativePath;
     },
 
     /**
@@ -1175,6 +1177,7 @@
       } else {
         target += '&';
       }
+	  
       return target + params.join('&');
     },
 
@@ -1243,8 +1246,10 @@
       this.xhr.addEventListener("error", this.doneHandler, false);
 
       var data = this.prepareXhrRequest('POST', this.flowObj.opts.method, bytes);
+	  
+	  console.log(this.xhr);
+	  
       this.xhr.send(data);
-	  console.log(this.xhr.response);
     },
 
     /**
@@ -1349,7 +1354,6 @@
         query = query(this.fileObj, this);
       }
       query = extend(this.getParams(), query);
-
       var target = this.flowObj.opts.target;
       var data = null;
       if (method === 'GET' || paramsMethod === 'octet') {
@@ -1370,14 +1374,14 @@
       }
 
       this.xhr.open(method, target);
+      console.log(this.xhr);
       this.xhr.withCredentials = this.flowObj.opts.withCredentials;
 
       // Add data from header options
       each(this.flowObj.opts.headers, function (v, k) {
         this.xhr.setRequestHeader(k, v);
       }, this);
-
-	  console.log(data);
+	  
       return data;
     }
   };
