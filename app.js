@@ -50,14 +50,28 @@ function Column(id, name) {
   };
 }
 
-function Card(title, status, details, data) {
+function Card(id, title, status, details, data, jumps) {
+  this.id = id;
   this.title = title;
   this.status = status;
   this.details = details;
   this.data = data;
+  this.jumps = jumps;
   return this;
 }
 
+
+function generatorID(prefix){
+	this.prefix = prefix+(+new Date())+'_';
+	this.num = 1;
+	this.getID = function(){
+		return this.prefix+(this.num++);
+	}
+}
+
+var idCardGenerate = new generatorID('id');
+var idColGenerate = new generatorID('id');
+	  
 function Backlog(name) {
   return {
     name: name,

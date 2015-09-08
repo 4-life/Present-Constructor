@@ -11,6 +11,7 @@
     <script src="lib/angular.min.js"></script>
     <script src="lib/ui-bootstrap.min.js"></script>
     <script src="lib/ng-sortable.min.js"></script>
+    <script src="lib/jsplumb/jsPlumb.js"></script>
     <script src="app.js"></script>
 	
     <script src="scripts/services/BoardManipulator.js"></script>
@@ -34,7 +35,7 @@
 				<div class="alert alert-danger sample-show-hide" role="alert" ng-class="{ 'hidden': ! parseError }">
 					<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
 					<span class="sr-only">Ошибка:</span>
-					В процессе получения данных с сервера возникла ошибка. Только локальный режим. 
+					В процессе получения данных с сервера возникла ошибка. Только локальный режим. (PHP отключен)
 				</div>
 				<div class="row">
 					<div class="col-md-2" ng-repeat="presentation in presentAllData">

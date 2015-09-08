@@ -25,10 +25,11 @@ select{  color: #333;}
 }
 
 
-#columns { margin: 20px 0 5px 0;}
+#columns { margin: 20px 0 5px 0; position:relative;}
 
 .column {
     border: solid 1px darkgrey;
+	min-height: 300px;
 }
 .card-list {
     margin: 0;
@@ -47,8 +48,23 @@ select{  color: #333;}
 .card {
    display: inline-block;
    vertical-align:top;
+   height: 300px;
+   padding: 10px;
 }
-
+.slideInfo{
+	position: absolute;
+	width: 100%;
+	height: 110px;
+	overflow: hidden;
+	padding-bottom: 20px;
+	word-wrap: break-word;
+}
+.slideInfo:hover{
+	height: auto;
+	overflow: visible;
+	background:#e5e5e5;
+	z-index:99999;
+}
 .card-title {
     color: #7c9eb2;
     text-decoration: none;
@@ -63,7 +79,8 @@ select{  color: #333;}
 }
 
 .column_present{
- margin: 10px 0;
+	margin: 10px 0;
+	position:relative;
 }
 
 .addNewCard {
@@ -102,7 +119,13 @@ select{  color: #333;}
 .transfer-box .progress {
     margin-bottom: 0;
 }
-
+.mainProgress{
+	display:none;
+	margin: 20px 0;
+}
+.mainProgress.active{
+	display:block;
+}
 .thumbnail {
     line-height: 20px;
     margin-bottom: 5px;
@@ -112,14 +135,13 @@ select{  color: #333;}
 }
 .thumbnail img {
     width:100%;
+	pointer-events: none;
 }
 
 .gallery-box {
 	position:relative;
     width: 200px;
-    margin: 7px;
-    min-height: 200px;
-    overflow: hidden;
+    height: 100%;
 }
 .gallery-box .progress {
     margin-bottom: 0;
@@ -167,6 +189,7 @@ select{  color: #333;}
 	padding:10px;
 	opacity:0;
 	background: rgba(0,0,0,.4);
+	word-wrap: break-word;
 	-webkit-transition:all .3s ease-in-out;
 	-moz-transition:all .3s ease-in-out;
 	-ms-transition:all .3s ease-in-out;
@@ -228,17 +251,12 @@ select{  color: #333;}
 
 .input-group{
 	width: 30%;
-	margin: 10px 30px;
 }
 .hidden{
 	display:none;
 }
 .present_title{
 	position:relative;
-}
-.presentNameForm{
-	margin: 0;
-	padding: 5px 0 30px 0;
 }
 .editable{
 	cursor:pointer;
@@ -317,18 +335,14 @@ select{  color: #333;}
 	position: absolute;
 	top: 0;
 	left: 0;
+	display:none;
+}
+.progresSaving.active{
+	display:block;
 }
 .progresSaving .progress-bar{
 	width: 100%;
 	height: 100%;
-}
-.sample-show-hide {
-  -webkit-transition:all linear 0.5s;
-  transition:all linear 0.5s;
-}
-
-.sample-show-hide.ng-hide {
-  opacity:0;
 }
 
 .btn-branch.expand{
@@ -342,38 +356,57 @@ select{  color: #333;}
 .btn-branch.expand .choosen{
 	display:block;
 }
+.buildWayModeToGo{
+	position:absolute;
+	width:100%;
+	height:100%;
+	top:0;
+	left:0;
+	background:#5cb85c;
+	display:none;
+	cursor:pointer;
+	text-align: center;
+	color: #fff;
+	font-size: 15pt;
+	z-index: 5;
+}
+.buildWayModeToGo p:first-child{
+	margin: 40px 20px;
+}
+.buildWayModeToGo.expand{
+	display:block;	
+}
+.buildWayModeShow .choosen{
+	font-size: 15pt;	
+}
 
-.ways{  position: relative;}
-.steps{	position: absolute;	background: #ccc;opacity:.4;}
+.jumps{  position: relative;}
+.steps{	position: absolute;	background: #ccc;opacity:1;}
 .card:hover .steps{
 	opacity:1;
 }
 .step1{  
 	width: 10px;
-	height: 22px;
 	left: 45%;
  }
 .step2{ 
-	width: 200px;
 	height: 10px;
 	bottom: 0;
 	right: 0;
 }
 .step3{ 
 	width: 10px;
-	height: 200px;
 	top: 0;
 	left: 0;
 }
 .step4{ 
-	width: 200px;
 	height: 10px;
 	bottom: 0;
 	left: 0;
 }
 .step5{  
 	width: 10px;
-	height: 30px;
 	top: 0;
 	right:0;
- }
+}
+ 

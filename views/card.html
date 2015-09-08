@@ -1,8 +1,6 @@
 <!-- Item template -->
 
-<div as-sortable-item-handle>
-        <div class="gallery-box">
-            <!--<span class="btn-link"><a data-no-drag target=_top href="https://github.com/a5hik/ng-sortable">test no-drag href</a></span>-->	
+        <div class="gallery-box" as-sortable-item-handle>
 			<div class="thumbnail" ng-class="{ 'detailShow': ! detailShow }">
 				<img ng-if="checkFlowData(card.data)" flow-img="card.data" />
 				<img ng-if="checkStringData(card.data)" ng-src="/api/temp/{{card.data}}" />
@@ -21,45 +19,49 @@
 					</div>
 				</div>
 			</div>
-            <h4 data-no-drag class="card-title editable" class="editable" ng-click="slideName = ! slideName; temp.name = card.title">
-				{{card.title}}<span class="glyphicon glyphicon-pencil edit"></span>
-			</h4>
 			
-			<div data-no-drag class="input-group slideNameForm" ng-class="{ 'hidden': ! slideName }">
-				<input type="text" class="form-control" placeholder="{{card.title}}" name="input" ng-model="card.title" required ng-trim="false"/>
-				<span class="input-group-btn">
-					<button class="btn btn-success active" type="button" ng-click="slideName = ! slideName"><span class="glyphicon glyphicon-ok"></span></button>
-					<button class="btn btn-danger active" type="button" ng-click="slideName = ! slideName; card.title=temp.name"><span class="glyphicon glyphicon-remove"></span></button>
+			<div class="slideInfo">
+				<h4 data-no-drag class="card-title editable" class="editable" ng-click="slideName = ! slideName; temp.name = card.title">
+					{{card.title}}<span class="glyphicon glyphicon-pencil edit"></span>
+				</h4>
+			
+				<div data-no-drag class="input-group slideNameForm" ng-class="{ 'hidden': ! slideName }">
+					<input type="text" class="form-control" placeholder="{{card.title}}" name="input" ng-model="card.title" required ng-trim="false"/>
+					<span class="input-group-btn">
+						<button class="btn btn-success active" type="button" ng-click="slideName = ! slideName"><span class="glyphicon glyphicon-ok"></span></button>
+						<button class="btn btn-danger active" type="button" ng-click="slideName = ! slideName; card.title=temp.name"><span class="glyphicon glyphicon-remove"></span></button>
+					</span>
+				</div>
+			
+				<span data-no-drag class="editable" ng-click="slideDetailsForm = ! slideDetailsForm; temp.name = card.details">
+					Описание : {{card.details}}
+					<span class="glyphicon glyphicon-pencil edit"></span>
 				</span>
-			</div>
 			
-            <span data-no-drag class="editable" ng-click="slideDetailsForm = ! slideDetailsForm; temp.name = card.details">
-				Описание : {{card.details}}
-				<span class="glyphicon glyphicon-pencil edit"></span>
-			</span>
-			<p ng-if="whereGo">Есть переход на {{whereGo.name}}</p>
-			
-			<div data-no-drag class="input-group slideDetailsForm" ng-class="{ 'hidden': ! slideDetailsForm }">
-				<input type="text" class="form-control" placeholder="{{card.details}}" name="input" ng-model="card.details" required ng-trim="false"/>
-				<span class="input-group-btn">
-					<button class="btn btn-success active" type="button" ng-click="slideDetailsForm = ! slideDetailsForm"><span class="glyphicon glyphicon-ok"></span></button>
-					<button class="btn btn-danger active" type="button" ng-click="slideDetailsForm = ! slideDetailsForm; card.details=temp.name"><span class="glyphicon glyphicon-remove"></span></button>
-				</span>
+				<div data-no-drag class="input-group slideDetailsForm" ng-class="{ 'hidden': ! slideDetailsForm }">
+					<input type="text" class="form-control" placeholder="{{card.details}}" name="input" ng-model="card.details" required ng-trim="false"/>
+					<span class="input-group-btn">
+						<button class="btn btn-success active" type="button" ng-click="slideDetailsForm = ! slideDetailsForm"><span class="glyphicon glyphicon-ok"></span></button>
+						<button class="btn btn-danger active" type="button" ng-click="slideDetailsForm = ! slideDetailsForm; card.details=temp.name"><span class="glyphicon glyphicon-remove"></span></button>
+					</span>
+				</div>
 			</div>
 			
 			<a data-no-drag class="btn btn-danger btn-removeCard" ng-click="removeCard(column, card)"><span class="glyphicon glyphicon-trash"></span>Удалить</a>
-			<a data-no-drag class="btn btn-info btn-branch sample-show-hide" ng-click="buildWayModeCh(true,columnIndex,cardIndex); buildWayModeShow=true" ng-class="{ 'expand': buildWayModeShow }">
+			<a data-no-drag class="btn btn-info btn-branch sample-show-hide buildWayModeShow" ng-click="buildWayModeCh(true, column.id, card.id)">
 				<span class="glyphicon glyphicon-share"></span>
 				Переход
 				<div class="choosen">	
 					<span>Выберите слайд <br/> для перехода</span><br/>
-					<button class="btn btn-warning active" type="button" ng-click="buildWayModeCh(false); buildWayModeShow=false;$event.stopPropagation();"><span class="glyphicon glyphicon-remove"></span></button>
+					<button class="btn btn-warning active" type="button" ng-click="buildWayModeCh(false); $event.stopPropagation();">Отменить<span class="glyphicon glyphicon-remove"></span></button>
 				</div>
 			</a>
+			
+			<div data-no-drag class="buildWayModeToGo" ng-click="buildWayModeBuild(column.id, card.id); $event.stopPropagation();"><p><span class="glyphicon glyphicon-screenshot"></span>Построить путь до данного слайда</p></div>
         </div>
 		
+		<div ng-if="whereGo" class="jumps" ng-include="'views/jumps.html'"></div>
 		
-		<div ng-if="whereGo" class="ways" ng-include="'views/ways.html'"></div>
+		<div class="jumps" ng-repeat="jump in card.jumps" data-jumpindex="{{$index}}" ng-include="'views/jumps.html'" id="jump{{$index}}" ng-init="setJump(column.id, card.id, jump, $index)"></div>
 		
-</div>
 

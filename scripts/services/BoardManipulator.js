@@ -28,23 +28,25 @@ angular.module('ng-app').factory('BoardManipulator', function () {
     addCardToColumn: function (board, column, cardTitle, details, data) {
       angular.forEach(board.columns, function (col) {
         if (col.id === column.id) {
-		  var card = new Card(cardTitle, column.name, details, data);
+		  var card = new Card(idCardGenerate.getID(), cardTitle, column.name, details, data, []);
           col.cards.push(card);
         }
       });
     },
     addCardToNewColumn: function (board, cardTitle, details, data) {
-	  var card = new Card(cardTitle, cardTitle, details, data);
-	  var column = new Column(0, "Visit"+0);
+	  var card = new Card(idCardGenerate.getID(), cardTitle, cardTitle, details, data, []);
+	  var column = new Column(idColGenerate.getID(), "Visit"+0);
 	  column.cards.push(card);
       board.columns.push(column);
     },
 	addColumn: function (board, columnName) {
-	  var index = board.columns.length;
-	  columnName ? columnName = columnName : columnName = "Visit"+index;
-      board.columns.push(new Column(index, columnName));
+	  columnName ? columnName = columnName : columnName = "Visit"+board.columns.length;
+      board.columns.push(new Column(idColGenerate.getID(), columnName));
     },
 	
+    saveNewWay: function (slideFrom, to) {
+		slideFrom.jumps.push(to);
+    },	
     addBacklog: function (board, backlogName) {
       board.backlogs.push(new Backlog(backlogName));
     },	
@@ -67,8 +69,7 @@ angular.module('ng-app').factory('BoardManipulator', function () {
           });
         }
       });
-    },
-	
-	
+    }
   };
+  
 });

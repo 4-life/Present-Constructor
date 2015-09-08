@@ -63,12 +63,11 @@ angular.module('ng-app').controller('PresentController', ['$scope', 'BoardServic
   $scope.alertSizeFiles = [];
   
   $scope.addNewCard = function (file,column) {
-	if(file.size>5000000){
+	if(file.size>4000000){
 		$scope.alertSizeFiles.push(file.name);
 	}else{
 		BoardService.addNewCard($scope.presentData, file, column);
 	}
-	$scope.downloadArea = true;
 	//file.cancel();
   }
    
@@ -112,7 +111,7 @@ angular.module('ng-app').controller('PresentController', ['$scope', 'BoardServic
 			var tempCol = new Column(column.id, column.name)
 			
 			angular.forEach(column.cards, function (card) {				
-				var tempCard = new Card(card.title, card.status, card.details, card.data.uniqueIdentifier||card.data);	
+				var tempCard = new Card(card.id, card.title, card.status, card.details, card.data.uniqueIdentifier||card.data, card.jumps);	
 				tempCol.cards.push(tempCard);
 			});
 			curPresent.columns.push(tempCol);
@@ -168,52 +167,101 @@ angular.module('ng-app').controller('PresentController', ['$scope', 'BoardServic
   }
   
   
-  $scope.buildWay = function(columnTo,cardTo){
+  $scope.buildWay = function(columnTo, cardTo){
 	if($scope.buildWayMode){
+			
 		var coFrom = $scope.columnFrom,
-			caFrom = $scope.cardFrom,
-			coTo   = columnTo,
-			caTo   = cardTo;
+			caFrom = $scope.cardFrom;
+			
+		angular.element( document.getElementsByClassName("buildWayModeToGo") ).removeAttr('style');
+							
+		if(coFrom==columnTo && caFrom==cardTo)return false;						
+				
+		var coFromEl = $scope.coFromEl;
+		var caFromEl = $scope.caFromEl;
+		var coToEl   = angular.element( document.querySelector( '#'+columnTo ) )[0];	
+		var caToEl   = angular.element( coToEl.querySelector( '#'+cardTo ) )[0];
+			
+		var from = {
+			"visit" : coFromEl,
+			"slide" : caFromEl
+		}
+		var to = {
+			"visit" : coToEl,
+			"slide" : caToEl
+		}			
+		var steps = {
+			"s1" : angular.element(caFromEl.querySelector('.step1')),
+			"s2" : angular.element(caFromEl.querySelector('.step2')),
+			"s3" : angular.element(caFromEl.querySelector('.step3')),
+			"s4" : angular.element(caFromEl.querySelector('.step4')),
+			"s5" : angular.element(caFromEl.querySelector('.step5'))
+		}
 		
-		//console.log("from: "+coFrom+", "+caFrom+"; to:"+ coTo+", "+ caTo);
+		angular.element(caToEl.querySelector('.buildWayModeToGo')).attr("style","display:block");	
 		
-		var coFromEl = angular.element( document.querySelector( '#column'+coFrom ) );
-		var caFromEl = angular.element( document.querySelector( '#card'+caFrom ) );
-		var coToEl = angular.element( document.querySelector( '#column'+coTo ) );
-		var caToEl = angular.element( document.querySelector( '#card'+caTo ) );
+		BoardService.buildWay(from, to, steps);
 		
-		var caTo_w
-		
-		var caFrom_w = caTo_w = caFromEl.clientWidth;
-		
-		var coFrom_h = coTo_h = coFromEl[0].clientHeight;
-		
-		var caFrom_h = caTo_h = caFromEl[0].clientHeight;
-		
-		var caFrom_Ot = caTo_Ot = caFromEl[0].getBoundingClientRect().top;
-		var caFrom_Ol = caFromEl[0].getBoundingClientRect().left;
-		
-		var caTo_Ol = caToEl[0].getBoundingClientRect().left;
-		
-		
-		$scope.step2 = {"width" : caFrom_Ol+"px"};
-		$scope.step3 = {"height": coTo*coFrom_h+"px"};
-		$scope.step4 = {"width": caTo_Ol+"px"};
 	}else{
 		console.log("buildWayMode: OFF");
 	}
   }
   
-  $scope.buildWayModeCh = function(mode,columnFrom,cardFrom){
+  $scope.buildWayModeCh = function(mode, columnFrom, cardFrom){
 	if(mode){
 		$scope.buildWayMode = true;
 		$scope.columnFrom = columnFrom;
 		$scope.cardFrom = cardFrom;
+		$scope.whereGo = true;
+		$scope.coFromEl = angular.element( document.querySelector( '#' + columnFrom ) )[0];
+		$scope.caFromEl = angular.element( $scope.coFromEl.querySelector( '#' + cardFrom ) )[0];
+		angular.element($scope.caFromEl.querySelector('.buildWayModeShow')).addClass("expand");
 	}else{
 		$scope.buildWayMode = false;
+		$scope.whereGo = false;
+		$scope.buildWayModeShow=false; 
+		angular.element($scope.caFromEl.querySelector('.expand')).removeClass("expand");
+		angular.element( document.getElementsByClassName("buildWayModeToGo") ).removeAttr('style');
 	}
   }
-    
+  
+  $scope.buildWayModeBuild = function(column, card){
+	$scope.buildWayModeCh(false);
+	var from = {
+		"visit" : $scope.columnFrom,
+		"slide" : $scope.cardFrom
+	},
+	to = {
+		"visit" : column,
+		"slide" : card
+	};	
+	BoardService.saveNewWay($scope.presentData, from, to);
+  }
+  
+  $scope.setJump = function(col, card, to, index){
+	col = angular.element( document.querySelector( '#' + col ) )[0];
+	card = angular.element( col.querySelector( '#' + card ) )[0];
+	console.log(card);
+	var jumpEl = angular.element( card.querySelector( '#jump' + index ) )[0];
+	var from = {
+		"visit" : col,
+		"slide" : card
+	}
+	var to = {
+		"visit" : angular.element( document.querySelector( '#' + to.visit ) )[0],
+		"slide" : angular.element( document.querySelector( '#' + to.slide ) )[0]
+	}			
+	var steps = {
+		"s1" : angular.element(card.querySelector('.step1')),
+		"s2" : angular.element(card.querySelector('.step2')),
+		"s3" : angular.element(card.querySelector('.step3')),
+		"s4" : angular.element(card.querySelector('.step4')),
+		"s5" : angular.element(card.querySelector('.step5'))
+	}
+		console.log(angular.element(card.querySelector('.step1')));
+	BoardService.buildWay(from, to, steps);
+  }
+  
   
 }]);
 
